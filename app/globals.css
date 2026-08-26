@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fdfaf5;
+  --foreground: #15434a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.wave {
+  position: absolute;
+  inset: auto 0 -2rem 0;
+  height: 180px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 40px,
+    rgba(255, 255, 255, 0.06) 40px,
+    rgba(255, 255, 255, 0.06) 80px
+  );
+  animation: drift 18s linear infinite;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-80px);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
