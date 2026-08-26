@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   description:
     "Pergunte em português, inglês ou espanhol e receba recomendações de praias, restaurantes, passeios, hotéis e roteiros em Maceió, Alagoas.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL("https://maceio-ia.vercel.app"),
 };
 
 export default function RootLayout({
