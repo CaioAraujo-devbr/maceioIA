@@ -84,7 +84,7 @@ export function SiteFooter() {
           </p>
         </div>
         <p className="text-xs text-ocean-300/70">
-          MVP local — recomendações de caráter informativo. Confirme marés,
+          Recomendações de caráter informativo. Confirme marés,
           preços e horários no destino.
         </p>
       </div>

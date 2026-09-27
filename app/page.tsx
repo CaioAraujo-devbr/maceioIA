@@ -53,7 +53,7 @@ export default function HomePage() {
                 </Link>
               </div>
               <p className="mt-6 text-xs text-ocean-100/70">
-                PT · EN · ES &nbsp;·&nbsp; Pensado para o celular &nbsp;·&nbsp; MVP com
+                PT · EN · ES &nbsp;·&nbsp; Pensado para o celular &nbsp;·&nbsp; 
                 respostas simuladas
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function HomePage() {
           <div className="mt-12 rounded-[2rem] bg-gradient-to-r from-ocean-600 to-ocean-800 px-6 py-10 text-center text-white sm:px-12">
             <h2 className="font-display text-3xl">Pronto para a orla?</h2>
             <p className="mx-auto mt-2 max-w-lg text-sm text-ocean-100">
-              Abra o chat no celular e pergunte como um local. Sem cadastro neste MVP.
+              Abra o chat no celular e pergunte como um local. 
             </p>
             <Link
               href="/chat"
