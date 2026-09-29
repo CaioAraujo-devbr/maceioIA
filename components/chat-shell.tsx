@@ -114,7 +114,7 @@ export function ChatShell() {
   }
 
   const status = useMemo(
-    () => (loading ? "escrevendo…" : "respostas simuladas • PT / EN / ES"),
+    () => (loading ? "escrevendo…" : "PT · EN · ES"),
     [loading],
   );
 
