@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "node scripts/check-deployment.mjs && next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.cjs",
+    "check": "npm test && npm run lint && npm run typecheck",
+    "release:check": "node scripts/check-deployment.mjs --production && npm run check && npm run build",
+    "verify:live": "node scripts/verify-live.mjs"
   },
   "dependencies": {
-    "next": "^16.3.3",
+    "@vercel/analytics": "^2.0.1",
+    "next": "^16.4.6",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -17,10 +23,13 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.35",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

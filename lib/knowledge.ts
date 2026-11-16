@@ -43,17 +43,17 @@ export const TOPICS: Topic[] = [
       "buenas",
     ],
     replies: {
-      pt: `Olá! Eu sou a **MaceiôIA**, seu guia local para Maceió e o litoral de Alagoas.
+      pt: `Olá! Eu sou a **MACEIÓ.IA**, seu guia local para Maceió e o litoral de Alagoas.
 
 Posso ajudar com praias (Pajuçara, Ponta Verde, Ipioca, Gunga), restaurantes, passeios (jangada, Maragogi, Penedo), hotéis, roteiros, marés, transporte e dicas de segurança.
 
 Me conta: quantos dias você tem e o que mais te anima — mar calmo, comida, mergulho ou um bate-volta?`,
-      en: `Hi! I’m **MaceiôIA**, your local guide for Maceió and the Alagoas coast.
+      en: `Hi! I’m **MACEIÓ.IA**, your local guide for Maceió and the Alagoas coast.
 
 I can help with beaches (Pajuçara, Ponta Verde, Ipioca, Gunga), restaurants, tours (reef pools, Maragogi, Penedo), hotels, itineraries, tides, transport, and safety tips.
 
 How many days do you have, and what’s the vibe — calm sea, food, diving, or a day trip?`,
-      es: `¡Hola! Soy **MaceiôIA**, tu guía local de Maceió y la costa de Alagoas.
+      es: `¡Hola! Soy **MACEIÓ.IA**, tu guía local de Maceió y la costa de Alagoas.
 
 Puedo ayudarte con playas (Pajuçara, Ponta Verde, Ipioca, Gunga), restaurantes, paseos (piscinas de arrecife, Maragogi, Penedo), hoteles, itinerarios, mareas, transporte y seguridad.
 
@@ -147,33 +147,21 @@ No es base de noche ni de las piscinas en jangada (eso es Pajuçara). En 4+ día
     id: "gunga",
     keywords: ["gunga", "praia do gunga", "coqueiro", "duna", "buggy"],
     replies: {
-      pt: `A **Praia do Gunga** (município de Barra de São Miguel) é o cartão-postal: milhares de coqueiros, a ponta entre mar e laguna e dunas para buggy.
+      pt: `A **Praia do Gunga fica no município de Roteiro**, no litoral sul de Alagoas, próxima à Barra de São Miguel. A paisagem reúne coqueiral, mar e a Lagoa do Roteiro.
 
-Logística: 45–70 min de Maceió, conforme trânsito. Chegue cedo (antes das 9h se puder) para estacionamento, sombra e fotos sem lotação. Há cobrança de acesso/estacionamento — leve cartão e um pouco de dinheiro.
+Reserve um dia e organize a ida e a volta. Confirme acesso, estacionamento e os passeios às falésias com o prestador; valores e condições podem mudar.
 
-Faça o passeio de **buggy** (dunas + mirantes) e, se gostar de água calma, o catamarã ou a área da laguna. O mar aberto pode ter corrente; respeite a orientação local.
+Não consultei trânsito, condições do mar ou disponibilidade em tempo real. Fonte da localização: https://dados.al.gov.br/catalogo/dataset/d16255c1-39f6-42aa-92c8-eca419432ebf/resource/20340c78-a88d-4e07-9686-4b7ae662f030/download/roteiro.pdf`,
+      en: `**Praia do Gunga is in Roteiro**, on the southern coast of Alagoas, near Barra de São Miguel. It combines coconut groves, the sea and Lagoa do Roteiro.
 
-Almoço: quiosques na praia ou restaurantes na Barra. Evite deixar o carro com objetos visíveis.
+Allow a day and arrange return transport. Confirm access, parking and cliff tours with providers. I do not check live conditions or prices.
 
-Quer um roteiro só de Gunga (dia inteiro) ou Gunga + Francês no mesmo dia? O segundo fica apertado no verão.`,
-      en: `**Praia do Gunga** (Barra de São Miguel) is the postcard: coconut groves, the point between ocean and lagoon, and dunes for a buggy ride.
+Location source: https://dados.al.gov.br/catalogo/dataset/d16255c1-39f6-42aa-92c8-eca419432ebf/resource/20340c78-a88d-4e07-9686-4b7ae662f030/download/roteiro.pdf`,
+      es: `**Praia do Gunga está en Roteiro**, en el litoral sur de Alagoas, cerca de Barra de São Miguel. Reúne cocoteros, mar y la Lagoa do Roteiro.
 
-It’s 45–70 minutes from Maceió. Arrive early (before 9am if you can) for parking, shade, and photos. There’s an access/parking fee — bring a card and some cash.
+Reserva un día y organiza el regreso. Confirma acceso, aparcamiento y excursiones a los acantilados con los prestadores. No consulto condiciones ni precios en tiempo real.
 
-Do the **buggy** (dunes + lookouts). The open ocean can have current; follow local flags. Lunch at beach kiosks or in Barra town.
-
-Leaving valuables in the car is a bad idea. A full Gunga day is better than rushing Gunga + Francês in peak summer.
-
-Want a timed day plan from Ponta Verde?`,
-      es: `**Praia do Gunga** (Barra de São Miguel) es la postal: cocoteros, la punta entre mar y laguna, y dunas en buggy.
-
-Está a 45–70 min de Maceió. Llega temprano (antes de las 9 si puedes) por parking, sombra y fotos. Hay cobro de acceso: lleva tarjeta y algo de efectivo.
-
-Haz el **buggy**. El mar abierto puede tener corriente; respeta las banderas. Almuerzo en la playa o en el pueblo de Barra.
-
-No dejes objetos a la vista en el coche. Un día entero en Gunga rinde más que Gunga + Francês a las corridas en verano.
-
-¿Te armo el día saliendo de Ponta Verde?`,
+Fuente de ubicación: https://dados.al.gov.br/catalogo/dataset/d16255c1-39f6-42aa-92c8-eca419432ebf/resource/20340c78-a88d-4e07-9686-4b7ae662f030/download/roteiro.pdf`,
     },
   },
   {
@@ -218,10 +206,10 @@ Quédate si buscas naturaleza y pareja, no fiesta. Maceió queda a 45–70 min: 
 - **Pajuçara** — jangada e piscinas naturais (maré baixa).
 - **Ponta Verde / Jatiúca** — melhor para ficar hospedado e caminhar na orla.
 - **Ipioca** — mar mais calmo, clima de vilarejo, mais longe.
-- **Gunga (Barra de São Miguel)** — o visual de filme; vá de dia, cedo.
-- **Francês** — águas claras e falésias, ~40 min, combina com Marechal Deodoro.
+- **Gunga (Roteiro)** — o visual de filme; vá de dia, cedo.
+- **Francês** — praia em Marechal Deodoro; pode ser combinada com uma visita ao centro histórico.
 
-Se você tem **só 1 dia de praia “especial”**, vá ao Gunga. Se quer **experiência de recife**, Pajuçara. Se viaja com **crianças pequenas**, Ipioca ou trechos rasos da orla no início da manhã.
+Se você tem **só 1 dia de praia “especial”**, vá ao Gunga. Se quer **experiência de recife**, Pajuçara. Se viaja com **crianças pequenas**, escolha o trecho pela estrutura, balneabilidade e condições locais do dia.
 
 Me diz se prefere água parada, ondas leves ou paisagem para foto que eu afunilo.`,
       en: `Quick beach map:
@@ -230,7 +218,7 @@ Me diz se prefere água parada, ondas leves ou paisagem para foto que eu afunilo
 - **Ponta Verde / Jatiúca** — best place to stay and walk the shore.
 - **Ipioca** — calmer, village feel, farther north.
 - **Gunga** — the cinematic coastline; go early as a day trip.
-- **Francês** — clear water and cliffs, pairs with historic Marechal Deodoro.
+- **Francês** — a beach in Marechal Deodoro; consider pairing it with the historic town.
 
 One “wow” beach day → Gunga. Reef experience → Pajuçara. Little kids → Ipioca or a quiet morning on the city shore.
 
@@ -241,7 +229,7 @@ Still water, light waves, or photos — what’s the priority?`,
 - **Ponta Verde / Jatiúca** — mejor para dormir y caminar.
 - **Ipioca** — más calma, pueblo, más lejos.
 - **Gunga** — la postal; ve temprano.
-- **Francês** — agua clara y acantilados, junto a Marechal Deodoro.
+- **Francês** — playa en Marechal Deodoro; considera visitar también el centro histórico.
 
 Un día “wow” → Gunga. Arrecife → Pajuçara. Niños pequeños → Ipioca.
 
@@ -595,7 +583,7 @@ Qual mês você está mirando? Eu digo o que priorizar nesse período.`,
 - **May–Aug:** more showers (usually passing, not a gray winter), better deals.
 - **Carnival and São João:** expensive and packed.
 
-Reef pools need **morning + low tide + decent sea** in any season.
+Reef pools need **suitable low tide and safe sea conditions** in any season.
 
 Which month are you targeting?`,
       es: `El mar está **caliente todo el año**. Cambian gente, precio y lluvia.
@@ -605,7 +593,7 @@ Which month are you targeting?`,
 - **Mayo–agosto:** más chubascos, mejores tarifas.
 - **Carnaval y São João:** caro y lleno.
 
-Las piscinas de arrecife piden **mañana + marea baja**, en cualquier temporada.
+Las piscinas de arrecife piden **marea baja adecuada y condiciones seguras**, en cualquier temporada.
 
 ¿Qué mes estás mirando?`,
     },
@@ -614,6 +602,9 @@ Las piscinas de arrecife piden **mañana + marea baja**, en cualquier temporada.
     id: "safety",
     keywords: [
       "segurança",
+      "emergência",
+      "emergencia",
+      "emergency",
       "seguranca",
       "safety",
       "seguro",
@@ -667,6 +658,8 @@ Traveling solo or with kids? I can tailor this.`,
       "táxi",
       "taxi",
       "aeroporto",
+      "voo",
+      "flight",
       "airport",
       "mcz",
       "ônibus",
@@ -679,27 +672,21 @@ Traveling solo or with kids? I can tailor this.`,
       "aeropuerto",
     ],
     replies: {
-      pt: `**Aeroporto Zumbi dos Palmares (MCZ)** fica cerca de 20–30 min da orla turística (trânsito varia). Uber/99 e transfer de hotel são o caminho mais simples.
+      pt: `Para sair do **Aeroporto Zumbi dos Palmares (MCZ)**, compare aplicativo, táxi e transfer até o endereço exato da hospedagem. Não tenho uma cotação atual: consulte o valor no aplicativo ou peça o total ao prestador antes de contratar.
 
-Na orla de Pajuçara–Ponta Verde–Jatiúca você faz quase tudo **a pé**. Para **Gunga, Francês, Ipioca e Maragogi**: transfer, van de agência ou **carro alugado**. Ônibus existe, mas come tempo e não é o melhor para quem tem poucos dias.
+O tempo de viagem depende do destino e do trânsito; não há um tempo fixo até a orla. No aplicativo, siga as instruções de embarque e confira placa e motorista. Com transfer, confirme bagagens, espera em caso de atraso e o ponto de encontro.
 
-Jangadas e buggies se contratam na praia ou pelo hotel — peça o que está incluso (colete, parada, taxa).
+Para Gunga, Ipioca ou Maragogi, combine também o retorno. Veja o guia completo de chegada e transporte no site. Informações do aeroporto: https://www.aenabrasil.com.br/pt/aeroportos/aeroporto-internacional-de-maceio-zumbi-dos-palmares/Como-chegar--.html`,
+      en: `From **Zumbi dos Palmares Airport (MCZ)**, compare app rides, taxis and transfers to your exact accommodation address. I have no current fare: check the app or ask the provider for the total before booking.
 
-Você desembarca de dia ou de madrugada? Isso muda se eu indico Uber na hora vs. transfer pré-pago.`,
-      en: `**Zumbi dos Palmares Airport (MCZ)** is about 20–30 minutes from the tourist shore. Uber/99 or a hotel transfer is the easy path.
+Travel time depends on traffic and your destination. Follow pickup instructions and check the driver and number plate. For transfers, confirm luggage, flight-delay waiting and the meeting point. Arrange return transport for Gunga, Ipioca or Maragogi.
 
-Pajuçara–Ponta Verde–Jatiúca is mostly **walkable**. For **Gunga, Francês, Ipioca, Maragogi**: agency van, private transfer, or **rental car**. Buses exist but eat time.
+Airport information: https://www.aenabrasil.com.br/pt/aeroportos/aeroporto-internacional-de-maceio-zumbi-dos-palmares/Como-chegar--.html`,
+      es: `Desde el **aeropuerto Zumbi dos Palmares (MCZ)**, compara aplicación, taxi y traslado hasta la dirección exacta del alojamiento. No tengo una tarifa actual: consulta la aplicación o pide el total antes de contratar.
 
-Rafts and buggies are booked on the beach or via the hotel — ask what’s included.
+La duración depende del tráfico y del destino. Sigue las instrucciones de recogida y comprueba matrícula y conductor. Confirma equipaje, espera por retrasos y punto de encuentro del traslado. Para Gunga, Ipioca o Maragogi, organiza también el regreso.
 
-Landing daytime or late night? That changes Uber vs. pre-booked transfer.`,
-      es: `El **aeropuerto Zumbi dos Palmares (MCZ)** está a unos 20–30 min de la orla. Uber/99 o transfer del hotel es lo simple.
-
-Pajuçara–Ponta Verde–Jatiúca se hace **a pie**. Para **Gunga, Francês, Ipioca, Maragogi**: van, transfer o **coche de alquiler**.
-
-Jangadas y buggies se cierran en la playa o el hotel.
-
-¿Llegas de día o de madrugada?`,
+Información del aeropuerto: https://www.aenabrasil.com.br/pt/aeroportos/aeroporto-internacional-de-maceio-zumbi-dos-palmares/Como-chegar--.html`,
     },
   },
   {

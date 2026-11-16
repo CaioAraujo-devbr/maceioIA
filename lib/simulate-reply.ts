@@ -1,6 +1,8 @@
+import { buildTravelReply, extractTravelContext, isItineraryEdit } from "./travel-context";
 import { detectLanguage } from "./detect-language";
 import { TOPICS, type TopicId } from "./knowledge";
 import type { ChatMessage, Language } from "./types";
+import { currentConditionsReply } from "./current-conditions";
 
 function normalize(text: string) {
   return text
@@ -23,13 +25,14 @@ function scoreTopic(haystack: string, keywords: string[]) {
 
 function pickTopic(userText: string): TopicId {
   const haystack = normalize(userText);
+  if (/\b(roteiro|itinerary|itinerario)\b/.test(haystack)) return "itinerary";
   let best: { id: TopicId; score: number } = { id: "fallback", score: 0 };
 
   for (const topic of TOPICS) {
     if (topic.id === "fallback") continue;
     const score = scoreTopic(haystack, topic.keywords);
     const greetingBoost =
-      topic.id === "greeting" && haystack.length < 24 ? 1 : 0;
+      topic.id === "greeting" && score > 0 && haystack.length < 24 ? 1 : 0;
     const total = score + greetingBoost;
     if (total > best.score) {
       best = { id: topic.id, score: total };
@@ -49,8 +52,25 @@ function findReply(id: TopicId, language: Language) {
 export function simulateReply(messages: ChatMessage[]): string {
   const lastUser = [...messages].reverse().find((message) => message.role === "user");
   const text = lastUser?.content ?? "";
-  const language = detectLanguage(text);
-  const topic = pickTopic(text);
+  const language = messages
+    .filter((message) => message.role === "user")
+    .reduce<Language>((previous, message) => detectLanguage(message.content, previous), "pt");
+  const conditions = currentConditionsReply(text, language);
+  if (conditions) return conditions;
+  let topic = pickTopic(text);
+
+  let previousTopic: TopicId = "fallback";
+  for (const message of messages.filter((item) => item.role === "user").slice(0, -1)) {
+    const candidate = pickTopic(message.content);
+    if (previousTopic === "itinerary" && isItineraryEdit(message.content)) continue;
+    const details = Object.keys(extractTravelContext([message])).length > 0;
+    if (details && (previousTopic === "itinerary" || previousTopic === "hotels")
+      && ["fallback", "season", "beaches", "itinerary"].includes(candidate)) continue;
+    if (candidate !== "fallback" && candidate !== "greeting") previousTopic = candidate;
+  }
+  if (previousTopic === "itinerary" && isItineraryEdit(text)) topic = "itinerary";
+  const personalized = buildTravelReply(messages, language, topic, previousTopic);
+  if (personalized) return personalized;
 
   const history = messages.filter((message) => message.role === "user").length;
   let reply = findReply(topic, language);
@@ -58,10 +78,10 @@ export function simulateReply(messages: ChatMessage[]): string {
   if (history > 1 && topic !== "greeting") {
     const followUp =
       language === "en"
-        ? "\n\nIf you share your travel month, I can also warn you about tides and crowds."
+        ? "\n\nThese are general tips. Check current tides and conditions before your trip."
         : language === "es"
-          ? "\n\nSi me dices el mes del viaje, te aviso de mareas y afluencia."
-          : "\n\nSe você me disser o mês da viagem, eu cruzo com maré e lotação.";
+          ? "\n\nSon consejos generales. Consulta las mareas y condiciones actuales antes del viaje."
+          : "\n\nEstas são dicas gerais. Confirme as marés e condições atuais antes do passeio.";
     if (!reply.includes("mês") && !reply.includes("month") && !reply.includes("mes")) {
       reply += followUp;
     }

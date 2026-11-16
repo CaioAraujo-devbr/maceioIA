@@ -1,166 +1,67 @@
+import Image from "next/image";
 import Link from "next/link";
+import { SavedTrip } from "@/components/saved-trip";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { TravelIcon, type IconName } from "@/components/travel-icon";
+import { DESTINATIONS } from "@/lib/destinations";
 
-const DESTINOS = [
-  { title: "Pajuçara", text: "Jangadas e piscinas naturais de corais na maré baixa." },
-  { title: "Ponta Verde", text: "Calçadão, hotéis e a base perfeita para a primeira visita." },
-  { title: "Ipioca", text: "Águas rasas e vilarejo ao norte, longe da pressa da orla." },
-  { title: "Gunga", text: "Coqueiral icônico, dunas e buggy em Barra de São Miguel." },
-  { title: "Maragogi", text: "Day trip às Galés — recifes em alto-mar." },
-  { title: "Penedo", text: "História e o Rio São Francisco num bate-volta cultural." },
-];
+export const metadata = { alternates: { canonical: "/" } };
 
-const PASSOS = [
-  { n: "01", title: "Pergunte do seu jeito", text: "PT, EN ou ES. Datas, orçamento, criança, mar calmo — quanto mais contexto, melhor." },
-  { n: "02", title: "Receba o porquê", text: "Não é lista genérica: maré, distância, público e plano B se chover." },
-  { n: "03", title: "Ajuste o roteiro", text: "Troque Gunga por Ipioca, some mergulho ou um jantar na Massagueira." },
+const guides: { title: string; description: string; href: string; icon: IconName }[] = [
+  { title: "Chegar e se locomover", description: "Aeroporto, transporte e retorno.", href: "/guia/transporte", icon: "car" },
+  { title: "Escolher onde ficar", description: "Regiões e hospedagens para comparar.", href: "/guia/hospedagem", icon: "bed" },
+  { title: "Encontrar uma boa refeição", description: "Endereços, mapas e contatos.", href: "/guia/alimentacao", icon: "food" },
+  { title: "Praias e piscinas naturais", description: "Escolha o lugar e confira as condições.", href: "/guia/praias", icon: "wave" },
+  { title: "Viajar com crianças", description: "Menos deslocamentos, mais pausas.", href: "/guia/familia", icon: "sun" },
+  { title: "Conferir antes de sair", description: "Marés, água e informações oficiais.", href: "/guia/informacoes", icon: "check" },
 ];
 
 export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-sand-50 text-ocean-950">
-      <SiteHeader />
-      <main>
-        <section className="relative overflow-hidden bg-ocean-hero text-white">
-          <div className="absolute inset-0 opacity-30 mix-blend-overlay">
-            <div className="wave" />
+  return <div className="travel-home coast-home">
+    <SiteHeader/>
+    <main id="conteudo">
+      <section className="coast-hero" aria-labelledby="home-heading">
+        <div className="travel-container coast-hero-grid">
+          <div className="coast-hero-copy">
+            <p className="coast-kicker"><TravelIcon name="pin"/> Maceió, Alagoas</p>
+            <h1 id="home-heading">Maceió,<br/><span>por onde começar?</span></h1>
+            <p>Escolha os lugares, organize seus dias e leve o roteiro com você.</p>
+            <div className="coast-hero-actions"><a className="travel-button" href="#comecar">Começar meu roteiro <TravelIcon name="arrow"/></a><Link href="/chat">Tirar uma dúvida <span aria-hidden="true">↗</span></Link></div>
+            <p className="coast-hero-note">Praias, sabores e caminhos de Alagoas.</p>
           </div>
-          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:py-24 lg:grid-cols-2">
-            <div>
-              <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ocean-100">
-                Turismo inteligente · Alagoas
-              </p>
-              <h1 className="mt-6 font-display text-4xl leading-[1.1] sm:text-5xl lg:text-6xl">
-                Maceió no bolso: um agente que conhece cada praia.
-              </h1>
-              <p className="mt-5 max-w-xl text-base text-ocean-50/90 sm:text-lg">
-                A <strong className="font-semibold text-white">MaceiôIA</strong> recomenda
-                praias, restaurantes, passeios, hotéis e roteiros em português, inglês
-                ou espanhol — com cara de guia local, não de folheto.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/chat"
-                  className="inline-flex items-center justify-center rounded-full bg-coral-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-coral-500/30 transition hover:bg-coral-600"
-                >
-                  Começar a conversar
-                </Link>
-                <Link
-                  href="/#destinos"
-                  className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
-                >
-                  Ver destinos
-                </Link>
-              </div>
-              <p className="mt-6 text-xs text-ocean-100/70">
-                PT · EN · ES &nbsp;·&nbsp; Pensado para o celular &nbsp;·&nbsp; 
-                respostas simuladas
-              </p>
-            </div>
+          <figure className="coast-hero-photo">
+            <Image src="/images/pajucara.webp" alt="Guarda-sóis coloridos e mar azul na Praia de Pajuçara, em Maceió" fill preload sizes="(max-width: 700px) 100vw, 58vw"/>
+            <figcaption><span><TravelIcon name="pin"/> Pajuçara</span><Link href="/destinos/pajucara">Conheça este lugar <TravelIcon name="arrow"/></Link></figcaption>
+          </figure>
+        </div>
+      </section>
 
-            <div className="relative">
-              <div className="rounded-[2rem] border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-md">
-                <div className="rounded-[1.5rem] bg-sand-50 p-4 text-ocean-950">
-                  <div className="mb-4 flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-coral-400" />
-                    <span className="text-xs font-medium text-ocean-600">MaceiôIA ao vivo</span>
-                  </div>
-                  <div className="space-y-3 text-sm">
-                    <div className="ml-8 rounded-2xl bg-ocean-700 px-3 py-2 text-white">
-                      Vale a pena ir ao Gunga com criança de 5 anos?
-                    </div>
-                    <div className="mr-4 rounded-2xl border border-ocean-100 bg-white px-3 py-2 leading-relaxed">
-                      Sim — chegue cedo, faça o trecho da laguna e o buggy curto, e
-                      evite o mar aberto se houver corrente. Leve sombra e lanche…
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -bottom-6 -left-4 hidden rotate-[-6deg] rounded-2xl bg-coral-500 px-4 py-2 text-sm font-semibold text-white shadow-lg sm:block">
-                Sol, sururu e maré baixa
-              </div>
-            </div>
-          </div>
-          <svg className="relative -mb-px block w-full text-sand-50" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden>
-            <path fill="currentColor" d="M0,32 C240,80 480,0 720,32 C960,64 1200,16 1440,40 L1440,80 L0,80 Z" />
-          </svg>
-        </section>
+      <div className="travel-container coast-launcher" id="comecar">
+        <div className="coast-launcher-heading"><div><span className="coast-overline">Seu ponto de partida</span><h2>Como vai ser sua viagem?</h2></div><p>Roteiros de 1 a 7 dias. Sem cadastro.</p></div>
+        <form action="/planejar#resultado" method="get" className="coast-trip-form">
+          <label>Quantos dias?<select name="days" defaultValue="3">{Array.from({ length: 7 }, (_, index) => <option key={index} value={index + 1}>{index + 1} {index === 0 ? "dia" : "dias"}</option>)}</select></label>
+          <label>Quem vai com você?<select name="profile" defaultValue=""><option value="">Ainda não defini</option><option value="couple">Casal, sem crianças</option><option value="family">Com crianças</option><option value="solo">Sozinho(a)</option><option value="friends">Amigos, sem crianças</option></select></label>
+          <label>Como vai se locomover?<select name="transport" defaultValue=""><option value="">Ainda não defini</option><option value="car">Com carro</option><option value="transfer">Sem carro</option></select></label>
+          <button type="submit" className="travel-button">Ver meu roteiro <TravelIcon name="arrow"/></button>
+        </form>
+      </div>
+      <SavedTrip compact/>
 
-        <section id="destinos" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <p className="text-sm font-semibold uppercase tracking-widest text-coral-600">
-            O mapa na cabeça do agente
-          </p>
-          <h2 className="mt-2 font-display text-3xl sm:text-4xl">
-            De Pajuçara a Penedo, sem enrolação.
-          </h2>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {DESTINOS.map((destino) => (
-              <article
-                key={destino.title}
-                className="rounded-3xl border border-ocean-100 bg-white p-5 shadow-card"
-              >
-                <h3 className="font-display text-xl text-ocean-800">{destino.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ocean-800/75">{destino.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+      <section id="destinos" className="travel-container coast-section coast-destinations" aria-labelledby="destinations-heading">
+        <div className="coast-section-heading"><div><p className="coast-overline">Maceió e litoral sul</p><h2 id="destinations-heading">Um lugar para cada dia.</h2></div><p>Comece pela orla.<br/>{" "}Depois, encontre seu próximo passeio.</p></div>
+        <div className="coast-destination-grid">{DESTINATIONS.map((place, index) => <Link key={place.slug} href={`/destinos/${place.slug}`} className="coast-destination">
+          <div className="coast-destination-image"><Image src={place.image} alt={place.alt} fill sizes="(max-width: 600px) 100vw, 33vw"/><span>{index === 2 ? "Litoral sul" : "Na cidade"}</span></div>
+          <div className="coast-destination-title"><h3>{place.name}</h3><TravelIcon name="arrow"/></div><p>{index === 0 ? "Jangadas e artesanato na orla." : index === 1 ? "Caminhadas e vida à beira-mar." : "Coqueiral, mar e Lagoa do Roteiro."}</p>
+        </Link>)}</div>
+      </section>
 
-        <section className="bg-ocean-950 py-16 text-ocean-50 sm:py-20">
-          <div className="mx-auto grid max-w-6xl gap-8 px-4 lg:grid-cols-3">
-            <div className="lg:col-span-1">
-              <h2 className="font-display text-3xl text-white">Mais que um chatbot.</h2>
-              <p className="mt-3 text-sm text-ocean-200">
-                Segurança na orla, Uber no aeroporto MCZ, maré das piscinas naturais,
-                quando a chuva de junho atrapalha (e quando não).
-              </p>
-            </div>
-            <ul className="grid gap-4 sm:grid-cols-2 lg:col-span-2">
-              {[
-                "Praias urbanas e selvagens",
-                "Restaurantes e comida local",
-                "Mergulho e jangadas",
-                "Hotéis por bairro",
-                "Melhor época e clima",
-                "Transporte e segurança",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+      <section className="coast-guide-section" aria-labelledby="guide-heading"><div className="travel-container">
+        <div className="coast-guide-heading"><div><p className="coast-overline">O que resolve sua viagem</p><h2 id="guide-heading">O guia está aqui.</h2></div><form action="/guia" method="get" className="coast-guide-search"><label htmlFor="home-search">Encontre um assunto</label><div><input id="home-search" name="q" type="search" maxLength={120} placeholder="Aeroporto, hotel, restaurante…"/><button type="submit" aria-label="Buscar no guia"><TravelIcon name="arrow"/></button></div></form></div>
+        <div className="coast-guides">{guides.map((guide) => <Link key={guide.href} href={guide.href}><TravelIcon name={guide.icon}/><div><h3>{guide.title}</h3><p>{guide.description}</p></div><TravelIcon name="arrow"/></Link>)}</div>
+      </div></section>
 
-        <section id="como-funciona" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <h2 className="font-display text-3xl sm:text-4xl">Três toques até o roteiro.</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {PASSOS.map((passo) => (
-              <article key={passo.n} className="rounded-3xl bg-white p-6 shadow-card">
-                <p className="font-display text-3xl text-coral-500">{passo.n}</p>
-                <h3 className="mt-3 text-lg font-semibold">{passo.title}</h3>
-                <p className="mt-2 text-sm text-ocean-800/75">{passo.text}</p>
-              </article>
-            ))}
-          </div>
-          <div className="mt-12 rounded-[2rem] bg-gradient-to-r from-ocean-600 to-ocean-800 px-6 py-10 text-center text-white sm:px-12">
-            <h2 className="font-display text-3xl">Pronto para a orla?</h2>
-            <p className="mx-auto mt-2 max-w-lg text-sm text-ocean-100">
-              Abra o chat no celular e pergunte como um local. 
-            </p>
-            <Link
-              href="/chat"
-              className="mt-6 inline-flex rounded-full bg-coral-500 px-6 py-3 text-sm font-semibold hover:bg-coral-600"
-            >
-              Falar com a MaceiôIA
-            </Link>
-          </div>
-        </section>
-      </main>
-      <SiteFooter />
-    </div>
-  );
+      <section id="antes-de-sair" className="travel-container coast-before"><div><p className="coast-overline">Antes de sair</p><h2>Confira as condições do dia.</h2><p>Consulte a data e o local nas fontes oficiais.</p></div><div className="coast-official-links"><a href="https://www.marinha.mil.br/chm/tabuas-de-mare" target="_blank" rel="noreferrer"><span>Marés<small>Marinha do Brasil</small></span><TravelIcon name="external"/></a><a href="https://www2.ima.al.gov.br/laboratorio/relatorios-de-balneabilidade/balneabilidade-de-praias/" target="_blank" rel="noreferrer"><span>Qualidade da água<small>IMA / Alagoas</small></span><TravelIcon name="external"/></a><a href="https://maceio.al.gov.br/noticias/semtur" target="_blank" rel="noreferrer"><span>Notícias de turismo<small>Prefeitura de Maceió</small></span><TravelIcon name="external"/></a></div></section>
+    </main>
+    <SiteFooter/>
+  </div>;
 }

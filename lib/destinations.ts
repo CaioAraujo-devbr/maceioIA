@@ -1,0 +1,17 @@
+export const DESTINATIONS = [
+  { slug: "pajucara", name: "Pajuçara", tag: "O clássico de Maceió", image: "/images/pajucara.webp", alt: "Faixa de areia e guarda-sóis coloridos na Praia de Pajuçara", subtitle: "Jangadas, artesanato e dias sem pressa.",
+    description: "Pajuçara combina a vida da orla com o passeio de jangada às piscinas naturais. É um ponto de partida para conhecer Maceió e encaixar praia, artesanato e gastronomia no mesmo dia.",
+    activities: ["Caminhar pela orla e conhecer a feira de artesanato.", "Consultar a maré e as condições locais para o passeio de jangada.", "Reservar tempo para comer e descansar entre os passeios."],
+    before: "O passeio às piscinas depende da maré e das condições do mar. Confirme horários, valores e o ponto de embarque com a operadora.",
+    credit: "Daniel Alves · Wikimedia Commons · domínio público", source: "https://commons.wikimedia.org/wiki/File:Praia_de_Pajuçara,_Maceió,_Alagoas.jpg", license: "https://creativecommons.org/publicdomain/mark/1.0/" },
+  { slug: "ponta-verde", name: "Ponta Verde", tag: "Para viver a orla", image: "/images/ponta-verde.webp", alt: "Guarda-sóis e banhistas na Praia de Ponta Verde", subtitle: "Caminhada, praia e uma base para explorar.",
+    description: "Ponta Verde é uma das referências da orla de Maceió. A região permite combinar caminhadas, gastronomia e momentos à beira-mar, além de servir como base para explorar outros lugares.",
+    activities: ["Conhecer o calçadão e observar a paisagem da orla.", "Combinar a caminhada com a vizinha Pajuçara.", "Comparar hospedagens conforme os deslocamentos da sua viagem."],
+    before: "Antes de entrar no mar, consulte o boletim de balneabilidade para o trecho escolhido. As condições variam; a aparência da água não substitui essa consulta.",
+    credit: "Daniel Alves · Wikimedia Commons · domínio público", source: "https://commons.wikimedia.org/wiki/File:Praia_de_Ponta_Verde,_Maceió,_Brazil_(51379676131).jpg", license: "https://creativecommons.org/publicdomain/mark/1.0/" },
+  { slug: "gunga", name: "Praia do Gunga", tag: "Um dia no litoral sul", image: "/images/gunga.webp", alt: "Vista do coqueiral do Gunga, da laguna e do mar no litoral sul de Alagoas", subtitle: "Coqueiros e uma paisagem para guardar.",
+    description: "A Praia do Gunga fica em Roteiro, no litoral sul de Alagoas, próxima à Barra de São Miguel. É uma opção para dedicar um dia fora da orla urbana. A paisagem reúne coqueiral, mar e laguna, com passeios oferecidos por operadores locais.",
+    activities: ["Reservar um dia sem excesso de paradas no caminho.", "Conhecer a paisagem e comparar os passeios disponíveis no local.", "Planejar o transporte de volta antes de sair de Maceió."],
+    before: "Confirme acesso, estacionamento e valores antes da visita. Para atividades na água, respeite a sinalização e a orientação local.",
+    credit: "Otávio Nogueira · Wikimedia Commons · CC BY 2.0", source: "https://commons.wikimedia.org/wiki/File:Barra_de_São_Miguel_%26_Praia_do_Gunga.jpg", license: "https://creativecommons.org/licenses/by/2.0/" },
+];

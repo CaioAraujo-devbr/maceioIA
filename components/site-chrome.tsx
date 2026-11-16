@@ -1,93 +1,15 @@
 import Link from "next/link";
+import { MobileMenu } from "./mobile-menu";
+import { TravelIcon } from "./travel-icon";
+import { OfficialSeal } from "./official-seal";
+import { DESTINATIONS } from "@/lib/destinations";
 
 export function Logo({ className = "" }: { className?: string }) {
-  return (
-    <Link href="/" className={`inline-flex items-center gap-2 ${className}`}>
-      <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-ocean-400 to-ocean-700 shadow-glow">
-        <svg viewBox="0 0 24 24" className="h-5 w-5 text-white" fill="none" aria-hidden>
-          <path
-            d="M3 15c2.5-1 4.5 1 7 0s4.5-1 7 0 4 1 4 1"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-          <path
-            d="M4 19c2.2-.8 3.8.8 6.2 0 2.4-.8 4-.8 6.2 0 1.6.6 3 .8 3.6.8"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            opacity="0.7"
-          />
-          <circle cx="17" cy="7" r="2.2" fill="#fdba74" />
-        </svg>
-      </span>
-      <span className="font-display text-xl tracking-tight text-ocean-950">
-        Maceió<span className="text-coral-500">IA</span>
-      </span>
-    </Link>
-  );
+  return <Link href="/" className={`brand ${className}`} aria-label="MACEIÓ.IA — página inicial"><OfficialSeal decorative/><span className="brand-wordmark">MACEIÓ<span>.IA</span><small>TURISMO · ALAGOAS</small></span></Link>;
 }
-
-export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }) {
-  const dark = variant === "dark";
-
-  return (
-    <header
-      className={`sticky top-0 z-40 border-b backdrop-blur-xl ${
-        dark
-          ? "border-white/10 bg-ocean-950/70"
-          : "border-ocean-900/5 bg-sand-50/80"
-      }`}
-    >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Logo className={dark ? "[&_span:last-child]:text-white" : ""} />
-        <nav className="flex items-center gap-2 sm:gap-4">
-          <Link
-            href="/#destinos"
-            className={`hidden text-sm font-medium sm:inline ${
-              dark ? "text-ocean-100/80 hover:text-white" : "text-ocean-800/70 hover:text-ocean-950"
-            }`}
-          >
-            Destinos
-          </Link>
-          <Link
-            href="/#como-funciona"
-            className={`hidden text-sm font-medium sm:inline ${
-              dark ? "text-ocean-100/80 hover:text-white" : "text-ocean-800/70 hover:text-ocean-950"
-            }`}
-          >
-            Como funciona
-          </Link>
-          <Link
-            href="/chat"
-            className="rounded-full bg-coral-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-coral-500/25 transition hover:bg-coral-600"
-          >
-            Abrir o chat
-          </Link>
-        </nav>
-      </div>
-    </header>
-  );
+export function SiteHeader() {
+  return <><a className="skip-link" href="#conteudo">Pular para o conteúdo</a><header className="travel-header"><div className="travel-container header-inner"><Logo/><nav className="desktop-navigation" aria-label="Navegação principal"><Link href="/#destinos">Destinos</Link><Link href="/guia">Guia prático</Link><Link href="/minha-viagem">Minha viagem</Link></nav><Link href="/planejar" className="header-chat">Montar roteiro <TravelIcon name="arrow"/></Link><MobileMenu/></div></header></>;
 }
-
 export function SiteFooter() {
-  return (
-    <footer className="border-t border-ocean-900/10 bg-ocean-950 text-ocean-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="font-display text-lg">
-            Maceió<span className="text-coral-400">IA</span>
-          </p>
-          <p className="mt-1 max-w-md text-sm text-ocean-200/80">
-            Agente de turismo para Maceió e o litoral de Alagoas. Respostas em
-            português, inglês e espanhol.
-          </p>
-        </div>
-        <p className="text-xs text-ocean-300/70">
-          Recomendações de caráter informativo. Confirme marés,
-          preços e horários no destino.
-        </p>
-      </div>
-    </footer>
-  );
+  return <footer className="travel-footer compact-footer"><div className="travel-container"><div className="compact-footer-line"><span>MACEIÓ.IA · Turismo em Alagoas</span><nav aria-label="Links do rodapé"><Link href="/planejar">Montar roteiro</Link><Link href="/chat">Tirar uma dúvida</Link><Link href="/minha-viagem">Minha viagem</Link><Link href="/sobre">Sobre</Link><Link href="/privacidade">Privacidade</Link></nav></div><p className="compact-footer-note">Sugestões automáticas. Confirme condições, preços e horários.</p><details className="photo-credits"><summary>Créditos das fotografias</summary><p>Fotografias históricas e ilustrativas dos destinos, redimensionadas e convertidas para WebP; o enquadramento varia conforme a tela.</p>{DESTINATIONS.map((place) => <p key={place.slug}><a href={place.source} target="_blank" rel="noreferrer">{place.name}: {place.credit}</a> · <a href={place.license} target="_blank" rel="noreferrer">Licença / declaração</a></p>)}</details></div></footer>;
 }

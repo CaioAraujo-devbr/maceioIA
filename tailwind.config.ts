@@ -40,8 +40,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-plus-jakarta)", "system-ui", "sans-serif"],
-        display: ["var(--font-fraunces)", "Georgia", "serif"],
+        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+        display: ["var(--font-heading)", "Arial Narrow", "sans-serif"],
       },
       boxShadow: {
         glow: "0 18px 50px -20px rgba(14, 165, 168, 0.45)",

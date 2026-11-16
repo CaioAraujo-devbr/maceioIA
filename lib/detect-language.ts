@@ -1,71 +1,20 @@
 import type { Language } from "./types";
 
-const PT = [
-  "praia",
-  "praias",
-  "onde",
-  "melhor",
-  "roteiro",
-  "passeio",
-  "hotel",
-  "restaurante",
-  "obrigado",
-  "olá",
-  "oi",
-  "quando",
-  "como",
-  "segurança",
-  "uber",
-];
+// Palavras compartilhadas empatam; nesse caso, preservamos o idioma anterior.
+const WORDS: Record<Language, string[]> = {
+  pt: ["praia", "praias", "onde", "melhor", "roteiro", "passeio", "obrigado", "ola", "oi", "quando", "seguranca", "quero", "voce", "criancas", "crianca", "dias", "comer", "restaurante", "restaurantes"],
+  en: ["beach", "beaches", "where", "best", "itinerary", "tour", "restaurant", "restaurants", "thanks", "hello", "hi", "when", "how", "safety", "please", "want", "children", "kids", "days", "tide", "tides", "tomorrow"],
+  es: ["playa", "playas", "donde", "mejor", "itinerario", "paseo", "gracias", "hola", "cuando", "seguridad", "seguro", "quiero", "ninos", "dias", "noche", "comer", "restaurante", "restaurantes", "marea", "mareas", "manana"],
+};
 
-const EN = [
-  "beach",
-  "beaches",
-  "where",
-  "best",
-  "itinerary",
-  "tour",
-  "hotel",
-  "restaurant",
-  "thanks",
-  "hello",
-  "hi",
-  "when",
-  "how",
-  "safety",
-  "please",
-];
-
-const ES = [
-  "playa",
-  "playas",
-  "dónde",
-  "donde",
-  "mejor",
-  "itinerario",
-  "paseo",
-  "hotel",
-  "restaurante",
-  "gracias",
-  "hola",
-  "cuándo",
-  "cuando",
-  "cómo",
-  "como",
-  "seguridad",
-];
-
-function score(text: string, words: string[]) {
-  return words.reduce((acc, word) => acc + (text.includes(word) ? 1 : 0), 0);
-}
-
-export function detectLanguage(text: string): Language {
-  const normalized = text.toLowerCase();
-  const pt = score(normalized, PT);
-  const en = score(normalized, EN);
-  const es = score(normalized, ES);
-
-  if (en >= pt && en >= es && en > 0) return "en";
-  if (es >= pt && es >= en && es > 0) return "es";
-  return "pt";
+export function detectLanguage(text: string, fallback: Language = "pt"): Language {
+  const words = new Set(text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").match(/[a-z]+/g) ?? []);
+  const scores = (Object.keys(WORDS) as Language[]).map((language) => ({
+    language,
+    score: WORDS[language].reduce((total, word) => total + Number(words.has(word)), 0)
+      + (language === "es" && /[¿¡]/.test(text) ? 2 : 0),
+  }));
+  const best = Math.max(...scores.map(({ score }) => score));
+  const winners = scores.filter(({ score }) => score === best);
+  return best === 0 || winners.length !== 1 ? fallback : winners[0].language;
 }
