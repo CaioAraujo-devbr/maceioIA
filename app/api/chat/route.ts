@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { buildLlmMessages } from "@/lib/llm";
 import { simulateReply } from "@/lib/simulate-reply";
-import { MAX_MESSAGE_LENGTH, MAX_MESSAGES, MAX_REQUEST_BYTES } from "@/lib/chat-limits";
+import { MAX_MESSAGE_LENGTH, MAX_MESSAGES, MAX_REQUEST_BYTES, limitReply } from "@/lib/chat-limits";
 import type { ChatMessage } from "@/lib/types";
 import { checkChatRate, isSameOriginRequest } from "@/lib/request-protection";
 
@@ -20,8 +20,8 @@ function isMessage(value: unknown): value is ChatMessage {
 
 export async function POST(request: Request) {
   if (!isSameOriginRequest(request)) return NextResponse.json({ error: "Abra o chat pelo site para continuar." }, { status: 403 });
-  const rate = checkChatRate(request);
-  if (!rate.allowed) return NextResponse.json({ error: "Muitas mensagens em pouco tempo. Aguarde um minuto e tente novamente." }, { status: 429, headers: { "Retry-After": String(rate.retryAfter), "Cache-Control": "no-store" } });
+  const rate = await checkChatRate(request);
+  if (!rate.allowed) return NextResponse.json({ error: rate.reason === "day" ? "Você atingiu o limite diário de mensagens. Tente novamente mais tarde." : "Muitas mensagens em pouco tempo. Aguarde um minuto e tente novamente." }, { status: 429, headers: { "Retry-After": String(rate.retryAfter), "Cache-Control": "no-store" } });
   if (request.headers.get("content-type")?.split(";")[0].trim().toLowerCase() !== "application/json") {
     return NextResponse.json({ error: "Envie os dados em JSON." }, { status: 415 });
   }
@@ -65,11 +65,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "A última mensagem deve ser do usuário." }, { status: 400 });
   }
 
-  const content = simulateReply(buildLlmMessages(messages));
+  // Only local replies exist today. Any future paid adapter MUST also require rate.allowPaidProvider.
+  const content = limitReply(simulateReply(buildLlmMessages(messages)));
   return NextResponse.json({
     role: "assistant" as const,
     content,
     simulated: true,
     model: "maceioia-local",
-  }, { headers: { "Cache-Control": "no-store" } });
+  }, { headers: { "Cache-Control": "no-store", "X-Chat-Rate-Limit": rate.mode } });
 }

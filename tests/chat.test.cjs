@@ -1,27 +1,6 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const path = require("node:path");
-const ts = require("typescript");
-
-// Executa os módulos TS reais sem acrescentar um runner ao projeto.
-const cache = new Map();
-function load(relative) {
-  const filename = path.resolve(__dirname, "..", relative);
-  if (cache.has(filename)) return cache.get(filename).exports;
-  const module = { exports: {} };
-  cache.set(filename, module);
-  const { outputText } = ts.transpileModule(fs.readFileSync(filename, "utf8"), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-  });
-  const localRequire = (id) => {
-    if (id.startsWith("@/")) return load(id.slice(2) + ".ts");
-    if (id.startsWith(".")) return load(path.relative(path.resolve(__dirname, ".."), path.resolve(path.dirname(filename), id + (path.extname(id) ? "" : ".ts"))));
-    return require(id);
-  };
-  new Function("require", "module", "exports", outputText)(localRequire, module, module.exports);
-  return module.exports;
-}
+const { load } = require("./load-ts.cjs");
 const { detectLanguage } = load("lib/detect-language.ts");
 const { simulateReply } = load("lib/simulate-reply.ts");
 const { TOPICS } = load("lib/knowledge.ts");
@@ -389,22 +368,7 @@ test("configuração do domínio não inventa um endereço público para a prév
 });
 
 
-const { createRateLimiter, isSameOriginRequest } = load("lib/request-protection.ts");
-test("proteção: limite é independente por visitante e libera na expiração", () => {
-  const limit = createRateLimiter(2, 1000);
-  assert.equal(limit("a", 100).allowed, true);
-  assert.equal(limit("a", 200).allowed, true);
-  assert.deepEqual(limit("a", 300), { allowed: false, retryAfter: 1 });
-  assert.equal(limit("b", 300).allowed, true);
-  assert.equal(limit("a", 1100).allowed, true);
-});
-test("proteção: capacidade limitada não expulsa visitantes para contornar a cota", () => {
-  const limit = createRateLimiter(1, 1000, 1);
-  assert.equal(limit("a", 0).allowed, true);
-  assert.equal(limit("b", 1).allowed, false);
-  assert.equal(limit("a", 2).allowed, false);
-  assert.equal(limit("b", 1000).allowed, true);
-});
+const { isSameOriginRequest } = load("lib/request-protection.ts");
 test("proteção: aceita mesma origem e rejeita origem externa, nula e cross-site", () => {
   const req = (headers) => new Request("https://maceio.example.com/api/chat", { headers });
   assert.equal(isSameOriginRequest(req({})), true);

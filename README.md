@@ -40,7 +40,7 @@ O código local não publica nem faz push automaticamente. Não é necessária c
 - Workflow de CI preparado localmente em `.github/workflows/ci.yml`, ainda não publicado: a credencial de push atual não possui o escopo `workflow`. O lançamento é validado por `npm run check` e build locais. Publicar o workflow depois por uma sessão autorizada do GitHub; ele não faz deploy.
 - `/api/health`: diagnóstico simples da aplicação, sem dados privados. Não verifica serviços externos.
 - Web Analytics é opcional e desativado por padrão. Para usar, habilite Analytics no painel da Vercel, confira os limites do seu plano e configure `NEXT_PUBLIC_ANALYTICS_ENABLED=true` antes de um novo deploy. O SDK remove query/hash da URL dos eventos, respeita Do Not Track e não recebe conversas. Esta etapa mede visitas, não conversões de roteiro.
-- Chat: 30 requisições/minuto por identificador de IP confiável da Vercel; quando indisponível, cota compartilhada de 200/minuto. Memória limitada a 5.000 identificadores por instância. Em serverless o limite não é global e pode reiniciar; antes de ampliar tráfego, configure WAF/limite distribuído na hospedagem. Não é uma defesa completa contra bots.
+- Chat: 30 requisições/minuto e 300 por janela de 24 horas por identificador derivado do IP confiável da Vercel. A integração opcional com Upstash compartilha os limites entre instâncias; sem ela, há apenas proteção local. Consulte a configuração e as limitações abaixo.
 - Páginas `/sobre` e `/privacidade` explicam escopo, fontes, armazenamento local e métricas. Antes do lançamento comercial, completar canal real de contato do responsável.
 
 ## Scripts
@@ -159,3 +159,37 @@ Critério de decisão proposto, definido antes dos testes: pelo menos 8 de 10 co
 No painel Web Analytics da Vercel, registrar o intervalo observado, visitas, páginas mais acessadas e origem dos acessos. Separar a data de ativação e os acessos de QA do período de divulgação. Visita à página não comprova roteiro salvo ou recomendação; essas conclusões vêm da observação do piloto. Não há gravação de sessão nem eventos personalizados nesta versão.
 
 Ao concluir as dez sessões, contar os resultados observados, listar os três problemas mais frequentes e escolher uma melhoria prioritária. Notícias, guias novos e parcerias devem responder às lacunas encontradas. Enviar apenas anotações anônimas para análise, se desejar apoio na consolidação.
+
+
+## Proteção distribuída do chat
+
+Implementação preparada nesta branch; não basta alterar o código local para ativá-la na publicação. O chat continua respondendo por regras, sem provedor de IA pago.
+
+### Configurar na Vercel quando esta alteração for publicada
+
+Crie ou selecione um banco Upstash Redis e configure estas variáveis **somente no servidor**, no ambiente Production do projeto MaceióIA:
+
+| Variável | Conteúdo |
+| --- | --- |
+| `UPSTASH_REDIS_REST_URL` | Endpoint REST HTTPS do banco, sem caminho, query ou credenciais na URL. |
+| `UPSTASH_REDIS_REST_TOKEN` | Token REST de escrita (não o token somente leitura). |
+| `CHAT_RATE_LIMIT_SECRET` | Segredo aleatório exclusivo com pelo menos 32 caracteres, igual em todas as instâncias desse ambiente. |
+
+Mantenha essas variáveis fora do GitHub e nunca use prefixo `NEXT_PUBLIC_`. Gere o segredo com um gerenciador de senhas ou ferramenta criptográfica. Use outro banco/segredo para Preview para não consumir a quota da produção nos testes. Alterar o segredo ou trocar o banco reinicia a identidade dos contadores. Faça um novo deployment depois de configurar. Nenhuma conta, banco ou contratação foi criada por esta alteração; confira os limites do serviço antes de ativar.
+
+### Comportamento
+
+- Por IP confiável da Vercel: 30 requisições por janela de 60 segundos e 300 por janela de 24 horas. As janelas começam na primeira requisição admitida; o limite diário não reinicia à meia-noite. Requisições inválidas também passam pela proteção antes da validação do corpo.
+- Sem IP confiável, os visitantes dividem uma cota de 200/minuto e 2.000/24 horas. Headers de IP enviados fora da Vercel não são aceitos como identidade. Uma rede compartilhada pode dividir quota entre pessoas.
+- Uma chamada HTTPS `EVAL` verifica e incrementa os dois contadores atomicamente no Redis. As chaves contêm apenas um HMAC do identificador, com TTL; mensagens, IP original e preferências não são enviados. O contador não renova o prazo quando uma tentativa é bloqueada. A execução depende de um backend compatível com a API REST/EVAL do Upstash e de contadores sem remoção antecipada por política de eviction.
+- Há uma proteção local adicional, com até 5.000 identificadores por instância, para conter excesso de chamadas ao Redis. Seu relógio de janela pode divergir do Redis e tornar a quota mais restritiva. Quando a memória atinge a capacidade, novos identificadores são recusados até haver espaço.
+- Sem configuração completa/válida, com HTTP de erro, retorno inesperado ou timeout de 1,5 segundo, o chat usa os contadores locais. Não há retry automático. Falhas de conexão, cabeçalhos e tokens não são registrados pelo aplicativo.
+- O fallback local **não é distribuído**: pode reiniciar em cold starts e não é um teto global de gasto. `allowPaidProvider` fica falso no fallback, nas recusas e quando não há IP confiável. Um futuro adaptador de IA paga deverá obrigatoriamente exigir essa autorização, além de sua própria flag/chave e controle de orçamento. Esta branch não contém esse adaptador.
+- Bloqueios retornam HTTP 429 e `Retry-After` em segundos; o limite diário tem mensagem própria. Respostas bem-sucedidas informam `X-Chat-Rate-Limit: local` ou `distributed`, sem expor identificadores, contagens ou credenciais.
+- As respostas são limitadas a 12.000 caracteres, com indicação de resumo caso sejam cortadas. Esse teto de saída não controla tokens faturados de uma futura API: o adaptador também precisará configurar o limite no provedor.
+
+### Verificar sem serviços reais
+
+`npm run check` executa os testes sem acessar Upstash nem uma API de IA. Os mocks cobrem protocolo REST, identidade estável entre instâncias, concorrência em backend simulado, bloqueio por minuto/dia, expiração local, falhas HTTP/rede/JSON, timeout de conexão/corpo, fallback, ausência de IP confiável e limite de resposta. O Lua não é executado contra um Redis real nesses testes; validar a integração num ambiente de Preview separado antes de ativar em Production. Execute também `npm run build`.
+
+Referências do contrato: [REST API do Upstash](https://upstash.com/docs/redis/features/restapi) e [EVAL](https://upstash.com/docs/redis/sdks/ts/commands/scripts/eval).
